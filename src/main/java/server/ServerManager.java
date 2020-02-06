@@ -78,10 +78,10 @@ public class ServerManager {
         return OK;
     }
 
-    public static String stopAll() {
+    public static void stopAll() {
         for (Map.Entry<Integer, ServerControls> entry : mapPortToServer.entrySet()) {
             entry.getValue().close();
         }
-        return GOODBYE;
+        System.exit(0);
     }
 }
