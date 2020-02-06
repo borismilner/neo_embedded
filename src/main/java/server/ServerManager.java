@@ -15,10 +15,11 @@ import java.util.Map;
 
 public class ServerManager {
 
-    public static HttpServer embeddedRestServer;
-
     private static final String OK = "ok";
     private static final String GOODBYE = "goodbye!";
+
+    public static HttpServer embeddedRestServer;
+
     private static HashMap<Integer, ServerControls> mapPortToServer = new HashMap<>();
 
     public static void main(String[] args) {
@@ -26,6 +27,22 @@ public class ServerManager {
         if (!startedRestServer) {
             throw new RuntimeException("Failed starting REST server");
         }
+    }
+
+    public static boolean startRestServer() {
+        try {
+            embeddedRestServer = HttpServer.create(new InetSocketAddress(6666), 0);
+        }
+        catch (IOException e) {
+            return false;
+        }
+        embeddedRestServer.createContext("/ping", new PingHandler());
+        embeddedRestServer.createContext("/start", new StartHandler());
+        embeddedRestServer.createContext("/stop", new StopHandler());
+        embeddedRestServer.createContext("/stop_all", new StopAllHandler());
+        embeddedRestServer.setExecutor(null); // creates a default executor
+        embeddedRestServer.start();
+        return true;
     }
 
 
@@ -50,7 +67,7 @@ public class ServerManager {
         return OK;
     }
 
-    public static String stopEmbbededNeo(int port) {
+    public static String stopEmbeddedNeo(int port) {
         if (!mapPortToServer.containsKey(port)) {
             return "missing_port";
         }
@@ -64,21 +81,5 @@ public class ServerManager {
             entry.getValue().close();
         }
         return GOODBYE;
-    }
-
-    public static boolean startRestServer() {
-        try {
-            embeddedRestServer = HttpServer.create(new InetSocketAddress(6666), 0);
-        }
-        catch (IOException e) {
-            return false;
-        }
-        embeddedRestServer.createContext("/ping", new PingHandler());
-        embeddedRestServer.createContext("/start", new StartHandler());
-        embeddedRestServer.createContext("/stop", new StopHandler());
-        embeddedRestServer.createContext("/stop_all", new StopAllHandler());
-        embeddedRestServer.setExecutor(null); // creates a default executor
-        embeddedRestServer.start();
-        return true;
     }
 }
