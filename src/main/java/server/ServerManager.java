@@ -57,7 +57,7 @@ public class ServerManager {
                     .withConfig("dbms.logs.query.enabled", "true")
                     .withConfig("dbms.track_query_cpu_time", "true")
                     .withConfig("dbms.index.default_schema_provider", "lucene+native-2.0")
-                    // .withProcedure(Null) // A must step - to include a plugin
+                    .withConfig("dbms.directories.plugins", "c:\\test\\plugins\\")
                     .newServer();
             mapPortToServer.put(port, embeddedServer);
         }
