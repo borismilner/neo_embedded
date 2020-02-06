@@ -82,6 +82,7 @@ public class ServerManager {
         for (Map.Entry<Integer, ServerControls> entry : mapPortToServer.entrySet()) {
             entry.getValue().close();
         }
+        System.out.println("Java server: goodbye!");
         System.exit(0);
     }
 }
