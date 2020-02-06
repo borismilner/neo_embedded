@@ -15,7 +15,6 @@ import java.util.Map;
 
 public class ServerManager {
 
-    public static ServerControls embeddedNeo4jServer;
     public static HttpServer embeddedRestServer;
 
     private static final String OK = "ok";
@@ -23,12 +22,12 @@ public class ServerManager {
     private static HashMap<Integer, ServerControls> mapPortToServer = new HashMap<>();
 
     public static void main(String[] args) {
-        startRestServer();
+        boolean startedRestServer = startRestServer();
+        if (!startedRestServer) {
+            throw new RuntimeException("Failed starting REST server");
+        }
     }
 
-    public static String startEmbeddedNeo() {
-        return startEmbeddedNeo(7687);
-    }
 
     public static String startEmbeddedNeo(int port) {
         if (mapPortToServer.containsKey(port)) {
