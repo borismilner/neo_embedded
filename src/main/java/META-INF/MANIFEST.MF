@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: 
+Main-Class: server.ServerManager
 Class-Path: neo4j-cypher-frontend-3.1-3.1.9.jar neo4j-data-collector-3.5
  .14.jar neo4j-cypher-expression-3.4-3.4.17.jar neo4j-lucene-index-3.5.1
  4.jar neo4j-common-3.5.14.jar FastInfoset-1.2.16.jar neo4j-graph-matchi
