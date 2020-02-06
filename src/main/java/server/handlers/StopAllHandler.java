@@ -10,9 +10,8 @@ import java.io.IOException;
 public class StopAllHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String response = ServerManager.stopAll();
-        Utilities.sendResponse(response, httpExchange);
+        Utilities.sendResponse("Goodbye!", httpExchange);
         ServerManager.embeddedRestServer.stop(0);
-
+        ServerManager.terminate();
     }
 }

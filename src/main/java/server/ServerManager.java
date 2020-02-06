@@ -78,7 +78,7 @@ public class ServerManager {
         return OK;
     }
 
-    public static void stopAll() {
+    public static void terminate() {
         for (Map.Entry<Integer, ServerControls> entry : mapPortToServer.entrySet()) {
             entry.getValue().close();
         }
