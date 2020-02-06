@@ -7,12 +7,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class Utilities {
-    private static StringBuilder sb;
+
+    private Utilities() {
+    }
 
     public static int getPort(HttpExchange incoming) {
         InputStream requestBody = incoming.getRequestBody();
-        int character = 0;
-        sb = new StringBuilder();
+        int character;
+        StringBuilder sb = new StringBuilder();
         do {
             try {
                 character = requestBody.read();
@@ -26,8 +28,7 @@ public class Utilities {
             }
         }
         while (true);
-        Integer portValue = Integer.valueOf(sb.toString());
-        return portValue;
+        return Integer.parseInt(sb.toString());
     }
 
     public static void sendResponse(String response, HttpExchange httpExchange) throws IOException {
