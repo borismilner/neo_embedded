@@ -51,13 +51,15 @@ public class ServerManager {
             return "already_exists";
         }
         try {
+            String pluginsFolder = System.getProperty("user.dir") + "\\plugins\\";
+            System.out.println(String.format("Expected plugins folder for the embedded neo-server - %s", pluginsFolder));
             ServerControls embeddedServer = TestServerBuilders.newInProcessBuilder()
                     .withConfig("dbms.connector.bolt.listen_address", String.format(":%d", port))
                     .withConfig("dbms.connector.bolt.enabled", "true")
                     .withConfig("dbms.logs.query.enabled", "true")
                     .withConfig("dbms.track_query_cpu_time", "true")
                     .withConfig("dbms.index.default_schema_provider", "lucene+native-2.0")
-                    .withConfig("dbms.directories.plugins", "c:\\test\\plugins\\")
+                    .withConfig("dbms.directories.plugins", pluginsFolder)
                     .newServer();
             mapPortToServer.put(port, embeddedServer);
         }
