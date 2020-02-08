@@ -20,7 +20,6 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
               <mainClass>server.ServerManager</mainClass>
             </manifest>
           </archive>
