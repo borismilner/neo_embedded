@@ -51,20 +51,20 @@ public class ServerManager {
         if (mapPortToServer.containsKey(port)) {
             return Response.PORT_ALREADY_EXISTS;
         }
-        try {
-            String pwd = System.getProperty("user.dir");
 
-            TestServerBuilder testServerBuilder = TestServerBuilders.newInProcessBuilder()
-                    .withConfig("dbms.connector.bolt.listen_address", String.format(":%d", port));
+        String pwd = System.getProperty("user.dir");
 
-            String configFileName = pwd + "/conf/neo4j.conf";
-            File configFile = new File(configFileName);
-            if (!configFile.exists() || configFile.isDirectory()) {
-                log.error(String.format("%s does not exist - aborting.", configFileName));
-                System.exit(-1);
-            }
-            log.info(String.format("Using configurations in %s", configFileName));
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile));
+        TestServerBuilder testServerBuilder = TestServerBuilders.newInProcessBuilder()
+                .withConfig("dbms.connector.bolt.listen_address", String.format(":%d", port));
+
+        String configFileName = pwd + "/conf/neo4j.conf";
+        File configFile = new File(configFileName);
+        if (!configFile.exists() || configFile.isDirectory()) {
+            log.error(String.format("%s does not exist - aborting.", configFileName));
+            System.exit(-1);
+        }
+        log.info(String.format("Using configurations in %s", configFileName));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String config = line.trim();
@@ -85,16 +85,18 @@ public class ServerManager {
                 }
 
             }
-
-            ServerControls newServer = testServerBuilder.newServer();
-            mapPortToServer.put(port, newServer);
         }
         catch (FileNotFoundException e) {
             log.error(String.format("File not found: %s", e.getMessage()));
         }
         catch (IOException e) {
-            log.error(String.format("IO Exception: %s", e.getMessage()));
+            log.error(String.format("Failed closing buffered-reader: %s", e.getMessage()));
         }
+
+        ServerControls newServer = testServerBuilder.newServer();
+        mapPortToServer.put(port, newServer);
+
+
         return Response.OK;
     }
 
