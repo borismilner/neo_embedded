@@ -14,7 +14,8 @@
 1. [GET] */ping* : shall reply with "pong".
 
 ## Current list of dependencies
-Note: some the following jars may be unused - I did not have time to minimize this list.
+Note: some the following may be unused - I did not have time to minimize this list.  
+Please notice the **conf** folder, it is hard-coded.
 * activation-1.1.1.jar
 * asm-6.2.jar
 * asm-analysis-6.2.jar
