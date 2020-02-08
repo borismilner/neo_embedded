@@ -33,6 +33,7 @@ Note: some the following jars may be unused - I did not have time to minimize th
 * commons-text-1.4.jar
 * concurrentlinkedhashmap-lru-1.4.2.jar
 * conf/
+    * neo4j.conf
 * eclipse-collections-9.2.0.jar
 * eclipse-collections-api-9.2.0.jar
 * FastInfoset-1.2.16.jar
@@ -145,6 +146,7 @@ Note: some the following jars may be unused - I did not have time to minimize th
 * parboiled-core-1.1.7.jar
 * parboiled-scala_2.11-1.1.7.jar
 * plugins/
+    * apoc-3.5.0.6-all.jar
 * scala-library-2.11.12.jar
 * scala-reflect-2.11.12.jar
 * server-api-3.5.14.jar
