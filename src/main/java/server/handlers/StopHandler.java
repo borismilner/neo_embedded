@@ -17,7 +17,7 @@ public class StopHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         int port = Utilities.getPort(httpExchange);
         String response = ServerManager.stopEmbeddedNeo(port);
-        if (response != Response.ok) {
+        if (response != Response.OK) {
             log.error(response);
         }
         else {

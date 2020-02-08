@@ -50,7 +50,7 @@ public class ServerManager {
 
     public static String startEmbeddedNeo(int port) {
         if (mapPortToServer.containsKey(port)) {
-            return Response.portAlreadyExists;
+            return Response.PORT_ALREADY_EXISTS;
         }
         try {
             String pwd = System.getProperty("user.dir");
@@ -93,16 +93,16 @@ public class ServerManager {
         catch (Exception exception) {
             return String.format("Error: %s", exception.getMessage());
         }
-        return Response.ok;
+        return Response.OK;
     }
 
     public static String stopEmbeddedNeo(int port) {
         if (!mapPortToServer.containsKey(port)) {
-            return String.format("%s: %d", Response.portIsMissing, port);
+            return String.format("%s: %d", Response.PORT_IS_MISSING, port);
         }
         mapPortToServer.get(port).close();
         mapPortToServer.remove(port);
-        return Response.ok;
+        return Response.OK;
     }
 
     public static void terminate() {

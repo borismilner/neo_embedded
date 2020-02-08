@@ -14,9 +14,9 @@ public class PingHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
-        String response = Response.pong;
+        String response = Response.PONG;
         log.debug("Got ping, ponging back.");
-        t.sendResponseHeaders(Response.ok200, response.length());
+        t.sendResponseHeaders(Response.OK_200, response.length());
         OutputStream os = t.getResponseBody();
         os.write(response.getBytes());
         os.close();
