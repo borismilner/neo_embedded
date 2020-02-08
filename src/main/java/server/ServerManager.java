@@ -113,6 +113,7 @@ public class ServerManager {
         for (Map.Entry<Integer, ServerControls> entry : mapPortToServer.entrySet()) {
             entry.getValue().close();
         }
+        log.info("Goodbye.");
         System.exit(0);
     }
 }
