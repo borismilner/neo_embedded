@@ -13,27 +13,27 @@
 1. [GET] */terminate* : shall stop all servers and terminate REST server as well.
 1. [GET] */ping* : shall reply with "pong".
 
->"C:\Program Files\Java\jdk1.8.0_211\bin\java.exe" ... server.ServerManager
- 14:40:38 [main] INFO - Listening for REST commands on port 2104
- 14:40:53 [Thread-2] DEBUG - Got ping, ponging back.
- 14:41:05 [Thread-2] INFO - Using configurations in C:\projects\neo_embedded/conf/neo4j.conf
- פבר 08, 2020 2:41:14 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate
- INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'
- פבר 08, 2020 2:41:14 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate
- INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'
- פבר 08, 2020 2:41:15 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate
- INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'
- 14:41:15 [Thread-2] DEBUG - Neo4j started on port 7687
- 14:41:19 [Thread-2] INFO - Using configurations in C:\projects\neo_embedded/conf/neo4j.conf
- פבר 08, 2020 2:41:24 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate
- INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'
- פבר 08, 2020 2:41:24 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate
- INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'
- פבר 08, 2020 2:41:24 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate
- INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'
- 14:41:24 [Thread-2] DEBUG - Neo4j started on port 7688
- 14:41:33 [Thread-2] DEBUG - Neo4j stopped on port 7688
- 14:41:43 [Thread-2] DEBUG - Neo4j stopped on port 7687
+>"C:\Program Files\Java\jdk1.8.0_211\bin\java.exe" ... server.ServerManager  
+ 14:40:38 [main] INFO - Listening for REST commands on port 2104  
+ 14:40:53 [Thread-2] DEBUG - Got ping, ponging back.  
+ 14:41:05 [Thread-2] INFO - Using configurations in C:\projects\neo_embedded\conf\neo4j.conf  
+  08, 2020 2:41:14 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate  
+ INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'  
+  08, 2020 2:41:14 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate  
+ INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'  
+  08, 2020 2:41:15 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate  
+ INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'  
+ 14:41:15 [Thread-2] DEBUG - Neo4j started on port 7687  
+ 14:41:19 [Thread-2] INFO - Using configurations in C:\projects\neo_embedded\conf\neo4j.conf  
+  08, 2020 2:41:24 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate  
+ INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'  
+  08, 2020 2:41:24 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate  
+ INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'  
+  08, 2020 2:41:24 PM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate  
+ INFO: Initiating Jersey application, version 'Jersey: 1.19.3 10/24/2016 03:43 PM'  
+ 14:41:24 [Thread-2] DEBUG - Neo4j started on port 7688  
+ 14:41:33 [Thread-2] DEBUG - Neo4j stopped on port 7688  
+ 14:41:43 [Thread-2] DEBUG - Neo4j stopped on port 7687  
 
 ## Current list of dependencies
 Note: some the following may be unused - I did not have time to minimize this list.  
