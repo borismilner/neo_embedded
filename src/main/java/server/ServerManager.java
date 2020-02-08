@@ -1,13 +1,16 @@
 package server;
 
 import com.sun.net.httpserver.HttpServer;
+import logging.LogHelper;
+import org.apache.logging.log4j.Logger;
 import org.neo4j.harness.ServerControls;
+import org.neo4j.harness.TestServerBuilder;
 import org.neo4j.harness.TestServerBuilders;
-import server.handlers.PingHandler;
-import server.handlers.StartHandler;
-import server.handlers.StopAllHandler;
-import server.handlers.StopHandler;
+import server.handlers.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -15,74 +18,98 @@ import java.util.Map;
 
 public class ServerManager {
 
-    private static final String OK = "ok";
-    private static final String GOODBYE = "goodbye!";
 
     public static HttpServer embeddedRestServer;
-
+    private static Logger log = LogHelper.getLogger();
+    private static int restServerPort = 2104;
     private static HashMap<Integer, ServerControls> mapPortToServer = new HashMap<>();
 
     public static void main(String[] args) {
-        boolean startedRestServer = startRestServer();
-        if (!startedRestServer) {
-            throw new RuntimeException("Failed starting REST server");
+
+        boolean startedRestServer = false;
+        try {
+            startedRestServer = startRestServer();
+        }
+        catch (IOException e) {
+            log.error(e.getMessage());
         }
     }
 
-    public static boolean startRestServer() {
-        try {
-            embeddedRestServer = HttpServer.create(new InetSocketAddress(6666), 0);
-        }
-        catch (IOException e) {
-            return false;
-        }
-        embeddedRestServer.createContext("/ping", new PingHandler());
+    public static boolean startRestServer() throws IOException {
+        embeddedRestServer = HttpServer.create(new InetSocketAddress(restServerPort), 0);
         embeddedRestServer.createContext("/start", new StartHandler());
         embeddedRestServer.createContext("/stop", new StopHandler());
-        embeddedRestServer.createContext("/stop_all", new StopAllHandler());
+        embeddedRestServer.createContext("/terminate", new TerminateHandler());
+        embeddedRestServer.createContext("/ping", new PingHandler());
         embeddedRestServer.setExecutor(null); // creates a default executor
         embeddedRestServer.start();
+        log.info(String.format("Listening for REST commands on port %d", restServerPort));
         return true;
     }
 
 
     public static String startEmbeddedNeo(int port) {
         if (mapPortToServer.containsKey(port)) {
-            return "already_exists";
+            return Response.portAlreadyExists;
         }
         try {
-            String pluginsFolder = System.getProperty("user.dir") + "\\plugins\\";
-            System.out.println(String.format("Expected plugins folder for the embedded neo-server - %s", pluginsFolder));
-            ServerControls embeddedServer = TestServerBuilders.newInProcessBuilder()
-                    .withConfig("dbms.connector.bolt.listen_address", String.format(":%d", port))
-                    .withConfig("dbms.connector.bolt.enabled", "true")
-                    .withConfig("dbms.logs.query.enabled", "true")
-                    .withConfig("dbms.track_query_cpu_time", "true")
-                    .withConfig("dbms.index.default_schema_provider", "lucene+native-2.0")
-                    .withConfig("dbms.directories.plugins", pluginsFolder)
-                    .newServer();
-            mapPortToServer.put(port, embeddedServer);
+            String pwd = System.getProperty("user.dir");
+
+            TestServerBuilder testServerBuilder = TestServerBuilders.newInProcessBuilder()
+                    .withConfig("dbms.connector.bolt.listen_address", String.format(":%d", port));
+
+            String configFileName = pwd + "/conf/neo4j.conf";
+            File configFile = new File(configFileName);
+            if (!configFile.exists() || configFile.isDirectory()) {
+                log.error(String.format("%s does not exist - aborting.", configFileName));
+                System.exit(-1);
+            }
+            log.info(String.format("Using configurations in %s", configFileName));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String config = line.trim();
+                if (config.startsWith("#") || config.isEmpty()) {
+                    continue;
+                }
+
+                String[] keyValue = line.split("=");
+                if (keyValue.length < 2) {
+                    log.warn(String.format("Configuration line is ignored (expected key=value): %s", line));
+                }
+                else if (keyValue.length == 2) {
+                    testServerBuilder = testServerBuilder.withConfig(keyValue[0].trim(), keyValue[1].trim());
+                }
+                else {
+                    String value = line.substring(line.indexOf('=') + 1, line.length() - 1).trim();
+                    testServerBuilder = testServerBuilder.withConfig(keyValue[0].trim(), value);
+                }
+
+            }
+
+            ServerControls newServer = testServerBuilder.newServer();
+            mapPortToServer.put(port, newServer);
         }
         catch (Exception exception) {
             return String.format("Error: %s", exception.getMessage());
         }
-        return OK;
+        return Response.ok;
     }
 
     public static String stopEmbeddedNeo(int port) {
         if (!mapPortToServer.containsKey(port)) {
-            return "missing_port";
+            return String.format("%s: %d", Response.portIsMissing, port);
         }
         mapPortToServer.get(port).close();
         mapPortToServer.remove(port);
-        return OK;
+        return Response.ok;
     }
 
     public static void terminate() {
         for (Map.Entry<Integer, ServerControls> entry : mapPortToServer.entrySet()) {
             entry.getValue().close();
         }
-        System.out.println("Java server: goodbye!");
+        log.info("Java server: goodbye!");
         System.exit(0);
     }
 }

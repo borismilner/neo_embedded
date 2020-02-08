@@ -7,7 +7,7 @@ import server.Utilities;
 
 import java.io.IOException;
 
-public class StopAllHandler implements HttpHandler {
+public class TerminateHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         Utilities.sendResponse("Goodbye!", httpExchange);
