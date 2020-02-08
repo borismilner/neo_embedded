@@ -10,7 +10,7 @@ import java.io.IOException;
 public class TerminateHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        Utilities.sendResponse("Goodbye!", httpExchange);
+        Utilities.sendResponse("Goodbye!", httpExchange, Response.OK_200);
         ServerManager.embeddedRestServer.stop(0);
         ServerManager.terminate();
     }

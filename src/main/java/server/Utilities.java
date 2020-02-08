@@ -31,7 +31,7 @@ public class Utilities {
         return Integer.parseInt(sb.toString());
     }
 
-    public static void sendResponse(String response, HttpExchange httpExchange) throws IOException {
+    public static void sendResponse(String response, HttpExchange httpExchange, int status) throws IOException {
         httpExchange.sendResponseHeaders(200, response.length());
         OutputStream outputStream = httpExchange.getResponseBody();
         outputStream.write(response.getBytes());

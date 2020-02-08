@@ -19,10 +19,11 @@ public class StartHandler implements HttpHandler {
         String response = ServerManager.startEmbeddedNeo(port);
         if (response != Response.OK) {
             log.error(response);
+            Utilities.sendResponse(response, httpExchange, Response.ERROR_400);
         }
         else {
             log.debug(String.format("Neo4j started on port %d", port));
+            Utilities.sendResponse(response, httpExchange, Response.OK_200);
         }
-        Utilities.sendResponse(response, httpExchange);
     }
 }
