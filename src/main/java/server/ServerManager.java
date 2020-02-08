@@ -8,10 +8,7 @@ import org.neo4j.harness.TestServerBuilder;
 import org.neo4j.harness.TestServerBuilders;
 import server.handlers.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
@@ -92,8 +89,11 @@ public class ServerManager {
             ServerControls newServer = testServerBuilder.newServer();
             mapPortToServer.put(port, newServer);
         }
-        catch (Exception exception) {
-            return String.format("Error: %s", exception.getMessage());
+        catch (FileNotFoundException e) {
+            log.error(String.format("File not found: %s", e.getMessage()));
+        }
+        catch (IOException e) {
+            log.error(String.format("IO Exception: %s", e.getMessage()));
         }
         return Response.OK;
     }
