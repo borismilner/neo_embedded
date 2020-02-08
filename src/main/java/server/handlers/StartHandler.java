@@ -17,7 +17,7 @@ public class StartHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         int port = Utilities.getPort(httpExchange);
         String response = ServerManager.startEmbeddedNeo(port);
-        if (response != Response.OK) {
+        if (!response.equals(Response.OK)) {
             log.error(response);
             Utilities.sendResponse(response, httpExchange, Response.ERROR_400);
         }
