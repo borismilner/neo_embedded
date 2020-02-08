@@ -21,7 +21,7 @@ public class ServerManager {
 
     public static HttpServer embeddedRestServer;
     private static Logger log = LogHelper.getLogger();
-    private static int restServerPort = 2104;
+    private static final int restServerPort = 2104;
     private static HashMap<Integer, ServerControls> mapPortToServer = new HashMap<>();
 
     public static void main(String[] args) {
