@@ -32,7 +32,7 @@ public class Utilities {
     }
 
     public static void sendResponse(String response, HttpExchange httpExchange, int status) throws IOException {
-        httpExchange.sendResponseHeaders(200, response.length());
+        httpExchange.sendResponseHeaders(status, response.length());
         OutputStream outputStream = httpExchange.getResponseBody();
         outputStream.write(response.getBytes());
         outputStream.close();
