@@ -63,7 +63,7 @@ public class ServerManager {
             log.error(String.format("%s does not exist - aborting.", configFileName));
             System.exit(-1);
         }
-        log.info(String.format("Reading configurations file - %s", configFileName));
+        log.info(String.format("Reading configurations file %s", configFileName));
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
