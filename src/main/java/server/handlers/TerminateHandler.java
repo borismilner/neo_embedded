@@ -11,7 +11,7 @@ public class TerminateHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         Utilities.sendResponse("Terminating - goodbye.", httpExchange, Response.OK_200);
-        ServerManager.embeddedRestServer.stop(0);
+        ServerManager.stopRestServer();
         ServerManager.terminate();
     }
 }

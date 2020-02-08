@@ -19,32 +19,34 @@ import java.util.Map;
 public class ServerManager {
 
 
-    public static HttpServer embeddedRestServer;
+    private static final int REST_SERVER_PORT = 2104;
     private static Logger log = LogHelper.getLogger();
-    private static final int restServerPort = 2104;
+    private static HttpServer embeddedRestServer;
     private static HashMap<Integer, ServerControls> mapPortToServer = new HashMap<>();
 
     public static void main(String[] args) {
 
-        boolean startedRestServer = false;
         try {
-            startedRestServer = startRestServer();
+            startRestServer();
         }
         catch (IOException e) {
             log.error(e.getMessage());
         }
     }
 
-    public static boolean startRestServer() throws IOException {
-        embeddedRestServer = HttpServer.create(new InetSocketAddress(restServerPort), 0);
+    public static void stopRestServer() {
+        embeddedRestServer.stop(0);
+    }
+
+    public static void startRestServer() throws IOException {
+        embeddedRestServer = HttpServer.create(new InetSocketAddress(REST_SERVER_PORT), 0);
         embeddedRestServer.createContext("/start", new StartHandler());
         embeddedRestServer.createContext("/stop", new StopHandler());
         embeddedRestServer.createContext("/terminate", new TerminateHandler());
         embeddedRestServer.createContext("/ping", new PingHandler());
         embeddedRestServer.setExecutor(null); // creates a default executor
         embeddedRestServer.start();
-        log.info(String.format("Listening for REST commands on port %d", restServerPort));
-        return true;
+        log.info(String.format("Listening for REST commands on port %d", REST_SERVER_PORT));
     }
 
 
