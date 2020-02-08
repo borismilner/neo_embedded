@@ -24,7 +24,7 @@ public class Utilities {
                 sb.append((char) character);
             }
             catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException(String.format("Failed reading request body: %s", e.getMessage()));
             }
         }
         while (true);
